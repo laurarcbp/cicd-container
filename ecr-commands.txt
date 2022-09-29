@@ -1,11 +1,16 @@
 // log in to ECR
-$(aws ecr get-login --no-include-email --region us-east-1)
+$(aws ecr get-login --no-include-email --region eu-west-1 --profile laurarcbp) <-- old not working
+
+// fisrt configure aws cli with the credentials for the profile/account you want (lauracbp) 
+// create as get comands from ERC repository  (Amazon ECR Repositories -> lrcbp -> Push commands for lrcbp)
+aws ecr-public get-login-password --region us-east-1 --profile laurarcbp | docker login --username AWS --password-stdin public.ecr.aws/f1t4f7e2
 
 // build the docker image
 docker build -t youtube:latest .
 
 // tag the docker image
 docker tag <IMAGE_NAME> <ECR_URL>
-
+ex: docker tag lrcbp:latest public.ecr.aws/f1t4f7e2/lrcbp:latest
 // push to ECR
 docker push <ECR_URL>
+ex: docker push public.ecr.aws/f1t4f7e2/lrcbp:latest
